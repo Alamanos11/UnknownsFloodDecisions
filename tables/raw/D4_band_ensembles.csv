@@ -1,0 +1,17 @@
+case,ensemble,states,band_ha,band_buildings,always_ha
+SER-01,14 states (paper),14,426.7,3480,41.4
+SER-01,"11 states, CN II (channel x maintenance)",11,387.4,3174,41.5
+SER-01,"3 states, CN II (channel only)",3,340.2,2939,62.5
+SER-01,"2 states, CN II (C1, C+)",2,138.5,1275,113.3
+SER-02,14 states (paper),14,361.3,106,6.4
+SER-02,"11 states, CN II (channel x maintenance)",11,262.5,85,6.4
+SER-02,"3 states, CN II (channel only)",3,211.9,78,14.0
+SER-02,"2 states, CN II (C1, C+)",2,89.6,52,53.1
+SER-03,14 states (paper),14,65.5,58,39.2
+SER-03,"11 states, CN II (channel x maintenance)",11,44.3,29,39.2
+SER-03,"3 states, CN II (channel only)",3,41.7,28,40.4
+SER-03,"2 states, CN II (C1, C+)",2,10.1,5,51.1
+SER-04,14 states (paper),14,2476.7,970,259.9
+SER-04,"11 states, CN II (channel x maintenance)",11,1548.1,759,259.9
+SER-04,"3 states, CN II (channel only)",3,1210.9,623,457.9
+SER-04,"2 states, CN II (C1, C+)",2,342.1,194,565.3

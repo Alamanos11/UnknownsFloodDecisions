@@ -2,4 +2,4 @@ case,stream,catchment_km2,setting,outlet_E,outlet_N,Q_T50_m3s,Q_T100_m3s,Q_T1000
 SER-01,Agioi Anargyroi,76.29,urban fan; channel on a ridge through Serres,462038,4550592,149.2,204.1,470.8,9.92,102206,227,5882,"18/06/2004; 21/06/2020 (73 buildings, FRMP EL11)"
 SER-02,Agia Varvara (Kamenitsa),32.71,urban edge; regulated reach (PKM) to the plain,460208,4548692,67.0,91.0,207.8,11.78,122126,137,445,"21/06/2020 (overflow, no location; FRMP EL11)"
 SER-03,Agios Ioannis,8.77,spring-fed; sheet flow on a fan; EO12 embankment,465118,4547957,20.0,26.3,56.0,6.14,60622,67.8,824,none recorded (1925 only)
-SER-04,Krousovitis,270.42,gorge -> Sidirokastro -> plain -> Belitsa canal,448748,4565072,429.0,579.2,1306.5,55.35,101517,864,2884,11/01/2021 (FRMP EL11); 26/01/2026 (state of emergency)
+SER-04,Krousovitis,270.42,gorge -> Sidirokastro -> plain -> Belitsa canal,448748,4565072,429.0,579.2,1306.5,55.35,101517,856,2884,11/01/2021 (FRMP EL11); 26/01/2026 (state of emergency)

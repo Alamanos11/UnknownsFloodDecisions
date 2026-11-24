@@ -18,7 +18,7 @@ T1 = [
       Q_T50_m3s=20.0, Q_T100_m3s=26.3, Q_T1000_m3s=56.0, domain_km2=6.14, cells=60622, C1_T50_flooded_ha=67.8, buildings_in_domain=824,
       flood_records='none recorded (1925 only)'),
  dict(case='SER-04', stream='Krousovitis', catchment_km2=270.42, setting='gorge -> Sidirokastro -> plain -> Belitsa canal', outlet_E=448748, outlet_N=4565072,
-      Q_T50_m3s=429.0, Q_T100_m3s=579.2, Q_T1000_m3s=1306.5, domain_km2=55.35, cells=101517, C1_T50_flooded_ha=864, buildings_in_domain=2884,
+      Q_T50_m3s=429.0, Q_T100_m3s=579.2, Q_T1000_m3s=1306.5, domain_km2=55.35, cells=101517, C1_T50_flooded_ha=856, buildings_in_domain=2884,
       flood_records='11/01/2021 (FRMP EL11); 26/01/2026 (state of emergency)'),
 ]
 write('T1_torrents_models.csv', T1)
@@ -43,13 +43,13 @@ T3 = [
 write('T3_factorial.csv', T3)
 # T4 – decision answers (synthesis of the results; numbers from raw/)
 T4 = [
- dict(decision='D1 which stream / reach first', decidable_without_survey='yes', what_changes_it='little: stream order fixed in 17/18 uniform scenarios; SER-01 first in 93-100 % of mixed states; reach rho 0.64-0.98',
+ dict(decision='D1 which stream / reach first', decidable_without_survey='yes', what_changes_it='little: stream order fixed in 17/18 uniform scenarios (18/18 for buildings >= 0.50 m); SER-01 first in 93-100 % of mixed states; reach rho 0.64-0.98',
       cheapest_information='none needed to rank streams; reach ranking in SER-04 unstable'),
  dict(decision='D2 is upkeep worth it, where', decidable_without_survey='yes, per torrent', what_changes_it='maintenance state as large as the channel unknown (line position: maintenance 39-52 % vs channel 21-33 % in SER-01/02/04)',
       cheapest_information='model each cleaning before contracting; SER-03 cleaning has no effect (-2...+6 %)'),
- dict(decision='D3 at what discharge damage starts', decidable_without_survey='as a band', what_changes_it='channel shifts Q for 50 buildings by factor 2-3 (SER-01/02); soil moisture shifts the warning rain by 35-45 %',
+ dict(decision='D3 at what discharge damage starts', decidable_without_survey='as a band', what_changes_it='channel shifts Q for 50 buildings by a factor of about 2 between adjacent states (up to ~4 in SER-02; upper bounds in SER-04); soil moisture shifts the warning rain by 35-45 %',
       cheapest_information='channel survey at the controlling reach + soil-moisture indicator'),
- dict(decision='D4 where the legal line falls', decidable_without_survey='only SER-03', what_changes_it='channel (69-75 % of line position); T50 vs T100 only 11-20 %; band 66-2 477 ha with 58-3 480 buildings',
-      cheapest_information='targeted channel survey: EUR 12-18 per building at stake in SER-01, EUR 94-152 in SER-04'),
+ dict(decision='D4 where the legal line falls', decidable_without_survey='only SER-03, after a check of the culverts', what_changes_it='channel (69-75 % of line position with C0; 37-52 % between C1 and C+); T50 vs T100 11-20 % (27-48 % between C1 and C+); band resolvable by a survey 44-1 548 ha with 29-3 174 buildings',
+      cheapest_information='targeted channel survey: EUR 13-20 per building at stake in SER-01, EUR 120-195 in SER-04'),
 ]
 write('T4_decision_answers.csv', T4)

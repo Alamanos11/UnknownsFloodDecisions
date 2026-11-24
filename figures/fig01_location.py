@@ -1,6 +1,8 @@
 """Paper 1, Fig. 1 – study area: four catchments, model domains, streams, towns (a); the four model domains with the
 reference flood extent (C1, T50, CN II, depth >= 0.10 m) and buildings (b-e).
-usage: python fig01_location.py <02_CASES>   (needs the full project data: case DEMs, catchment gpkgs, result rasters, buildings – not in the repository)"""
+usage: python fig01_location.py <02_CASES> [<GreeceMAP folder>]   (needs the full project data: case DEMs, domain terrains, catchment gpkgs,
+       result rasters, buildings – not in the repository; the Greece outline (greece.shp, perifereies.shp, EPSG:2100) for the inset)
+Shaded relief: the case DEM extracts (catchment + >= 0.7 km) and the terrains of the 2D domains, all from the same 5 m DEM."""
 import sys, os, json, glob
 import numpy as np, rasterio, geopandas as gpd, pyogrio
 from rasterio.warp import reproject, Resampling
@@ -10,6 +12,7 @@ import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import LightSource
 ROOT = sys.argv[1]
+GR = sys.argv[2] if len(sys.argv) > 2 else None
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Fig01_location.png')
 CASES = [('SER-01', 'SER-01_AgioiAnargyroi', 'AgioiAnargyroi', 'Agioi Anargyroi', 'p01_T50_G2'),
          ('SER-02', 'SER-02_AgiaVarvara', 'AgiaVarvara', 'Agia Varvara', 'p01_T50_G1'),
@@ -18,19 +21,24 @@ CASES = [('SER-01', 'SER-01_AgioiAnargyroi', 'AgioiAnargyroi', 'Agioi Anargyroi'
 COL = {'SER-01': '#6a3d9a', 'SER-02': '#b15928', 'SER-03': '#008080', 'SER-04': '#d6457f'}   # = p1_style.CASE_COL
 per = json.load(open(os.path.join(ROOT, 'SER-P1_paper_decisions', 'data', 'model_perimeters.json')))
 # mosaic hillshade 25 m
-x0, x1, y0, y1, px = 444000, 474000, 4541000, 4584000, 25
+x0, x1, y0, y1, px = 439500, 474000, 4541000, 4584000, 25
 W, H = int((x1 - x0) / px), int((y1 - y0) / px); tr = from_origin(x0, y1, px, px)
 Z = np.full((H, W), np.nan, 'float32')
-for c, d, n, *_ in CASES:
-    with rasterio.open(os.path.join(ROOT, d, '00_data', 'dem', f'{n}_dem5m_filled.tif')) as r:
+TERR = {'SER-01': 'geometry/T0_dem5m_clip.tif', 'SER-02': 'Terrain/DEM_open.T0_DEMopen_2m.tif',
+        'SER-03': 'Terrain/DEM_open.T0_DEMopen_2m.tif', 'SER-04': 'geometry/T0_DEM_5m.tif'}   # domain terrains (C0, same 5 m DEM)
+SRC = [os.path.join(ROOT, d, '00_data', 'dem', f'{n}_dem5m_filled.tif') for c, d, n, *_ in CASES] + \
+      [os.path.join(ROOT, d, '03_hecras', TERR[c]) for c, d, n, *_ in CASES]
+for f in SRC:
+    if not os.path.exists(f): print('missing', f); continue
+    with rasterio.open(f) as r:
         a = np.full((H, W), np.nan, 'float32')
         reproject(r.read(1).astype('float32'), a, src_transform=r.transform, src_crs=r.crs, dst_transform=tr, dst_crs=r.crs,
                   src_nodata=r.nodata, dst_nodata=np.nan, resampling=Resampling.average)
         Z = np.where(np.isnan(Z), a, Z)
 ls = LightSource(azdeg=315, altdeg=45)
 hs = ls.hillshade(np.nan_to_num(Z, nan=np.nanmin(Z)), vert_exag=2, dx=px, dy=px)
-fig = plt.figure(figsize=(13, 9.2))
-ax = fig.add_axes([0.02, 0.05, 0.42, 0.9])
+fig = plt.figure(figsize=(13.6, 9.2))
+ax = fig.add_axes([0.01, 0.05, 0.45, 0.9])
 ext = (x0, x1, y0, y1)
 ax.imshow(np.ma.masked_where(np.isnan(Z), hs), cmap='gray', extent=ext, vmin=0, vmax=1.2, alpha=.9)
 ax.imshow(np.ma.masked_where(np.isnan(Z), Z), cmap='terrain', extent=ext, alpha=.25, vmin=0, vmax=1800)
@@ -54,9 +62,25 @@ ax.plot([x0 + 1500, x0 + 6500], [y0 + 4200] * 2, 'k-', lw=3); ax.text(x0 + 4000,
 ax.annotate('N', xy=(x1 - 1500, y1 - 1500), xytext=(x1 - 1500, y1 - 4000), ha='center', fontsize=10,
             arrowprops=dict(arrowstyle='-|>', color='k'))
 ax.set_title('(a) Four torrents, Serres regional unit (EL11), EGSA87', fontsize=10, loc='left')
+if GR:   # location inset: Greece, regions, study area
+    gr = gpd.read_file(os.path.join(GR, 'greece.shp')); rg = gpd.read_file(os.path.join(GR, 'perifereies.shp'))
+    ia = ax.inset_axes([0.015, 0.125, 0.34, 0.205])
+    ia.set_facecolor('#eef3f8')
+    rg.plot(ax=ia, color='#f4f1ea', edgecolor='#9a9a9a', lw=0.25)
+    from shapely.geometry import Point, box as sbox
+    cm = rg[rg.contains(Point(461300, 4549300))]
+    cm.plot(ax=ia, color='#e3dccb', edgecolor='#777', lw=0.35)
+    gr.boundary.plot(ax=ia, color='#555', lw=0.35)
+    gpd.GeoSeries([sbox(x0, y0, x1, y1)]).boundary.plot(ax=ia, color='#c0392b', lw=1.3)
+    ia.text(x1 + 40000, (y0 + y1) / 2, 'study\narea', fontsize=7, color='#c0392b', ha='left', va='center', bbox=dict(fc='white', ec='none', alpha=0.75, pad=0.8))
+    ia.text(215000, 3905000, 'GREECE', fontsize=7.5, color='#555', ha='center')
+    ia.text(860000, 4420000, 'Aegean\nSea', fontsize=6.5, color='#6f8fb0', ha='center', style='italic')
+    ia.set_xlim(100000, 1010000); ia.set_ylim(3845000, 4660000); ia.set_aspect('equal')
+    ia.set_xticks([]); ia.set_yticks([]); ia.set_xlabel(''); ia.set_ylabel('')
+    for sp in ia.spines.values(): sp.set_edgecolor('#666'); sp.set_linewidth(0.8)
 # panels b-e
 bld = gpd.read_file(os.path.join(ROOT, '_data_buildings', 'buildings_merged_serres.gpkg'))
-pos = [[0.47, 0.52, 0.25, 0.43], [0.74, 0.52, 0.25, 0.43], [0.47, 0.05, 0.25, 0.43], [0.74, 0.05, 0.25, 0.43]]
+pos = [[0.48, 0.52, 0.25, 0.43], [0.745, 0.52, 0.25, 0.43], [0.48, 0.05, 0.25, 0.43], [0.745, 0.05, 0.25, 0.43]]
 for (c, d, n, name, plan), p, lab in zip(CASES, pos, 'bcde'):
     a2 = fig.add_axes(p); poly = Polygon(per[c]['pts']); bx = poly.bounds
     f = glob.glob(os.path.join(ROOT, d, '03_hecras', 'results', plan, '*maxdepth.tif'))[0]
