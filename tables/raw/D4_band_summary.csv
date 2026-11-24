@@ -1,0 +1,5 @@
+case,states,A_ref_ha,A_always_ha,A_sometimes_ha,A_envelope_ha,bld_always,bld_sometimes,bld_ref,bld_in_domain
+SER-01,14,237.0,41.4,426.7,468.1,136,3480,1587,5882
+SER-02,14,139.2,6.4,361.3,367.7,0,106,53,445
+SER-03,14,58.8,39.2,65.5,104.7,53,58,68,824
+SER-04,14,834.5,259.9,2476.7,2736.6,81,970,332,2884

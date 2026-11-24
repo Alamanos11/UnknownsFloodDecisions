@@ -1,0 +1,5 @@
+case,channel_km,catchment_km2,band_ha,band_buildings,buildings_per_km,survey_EUR_lo,survey_EUR_hi,hydraulic_fee_YDR14_EUR,EUR_per_building_lo,EUR_per_building_hi,full_study_EUR_per_building_lo,full_study_EUR_per_building_hi
+SER-01,5.04,76.29,427,3480,690.5,21700.0,43400.0,19200.0,12,18,34,216
+SER-02,6.69,32.71,361,106,15.8,28800.0,57600.0,21700.0,476,748,1132,7075
+SER-03,3.1,8.77,66,58,18.7,13300.0,26700.0,13600.0,465,695,2069,12931
+SER-04,13.18,270.42,2477,970,73.6,56700.0,113500.0,34300.0,94,152,124,773

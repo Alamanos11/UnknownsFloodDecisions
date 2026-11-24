@@ -1,0 +1,8 @@
+factor,type,levels,runs_per_torrent
+channel geometry,epistemic unknown,C0 DEM only (crossings opened); C1 assumed channel; C+ larger channel,all designs
+antecedent soil moisture,epistemic unknown,AMC II (CN II); AMC III (CN III),3 (T50 CN III on C0/C1/C+)
+design return period,regulatory choice,T50; T100; T1000 (C1 only),3 + 1
+maintenance state,management lever,base n 0.04; overgrown n 0.08; cleared n 0.03; half-blocked crossings; bed +0.5 m,8 (4 states x C1/C+)
+inflow ramp (D3),threshold design,"15 steps 5-100 % of Q1000, hold 60-120 min",3 (C0/C1/C+)
+events,plausibility,"SER-01 2004, 2020; SER-04 Jan 2021 A (gauge, CERRA), B",SER-01 2; SER-04 3
+total HEC-RAS 2D runs,,46 core and event runs + 44 maintenance and stepped-inflow runs = 90,
